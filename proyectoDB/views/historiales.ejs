@@ -1,0 +1,55 @@
+<%- include('template/cabecera', {titulo: 'index ejs'}) %>
+
+   <div class="container">
+      <a href="./crear" class="btn btn-success btn-block my-4">
+         Crear Nuevo Historial
+      </a>
+
+      <table class="table table-striped">
+         <thead>
+           <tr>
+            <th scope="col">Fecha</th>
+            <th scope="col">Doctor Responsable</th>
+             <th scope="col">Paciente</th>
+             <th scope="col">Tratamiento</th>
+             <th scope="col">Acciones</th>
+           </tr>
+         </thead>
+         <tbody>
+      <% if (arrayHistorial.length > 0) { %>
+         <% arrayHistorial.forEach(historial => { %>
+                 <tr>
+                  <td><%= historial.fecha.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) %></td>
+                  <td><%= historial.doctor %></td>
+                   <td>
+                     <dl>
+                        <dt>Nombre(s)</dt>
+                        <dd><%= historial.paciente.nombre %></dd>
+                        <dt>Apellido(s)</dt>
+                        <dd><%= historial.paciente.apellido %></dd>
+                        <dt>Ciudad</dt>
+                        <dd><%= historial.paciente.ciudad %></dd>
+                        <dt>Telefono</dt>
+                        <dd><%= historial.paciente.telefono %></dd>
+                        <dt>Email</dt>
+                        <dd><%= historial.paciente.email %></dd>
+                      </dl>
+                      
+                   </td>
+                   <td><%= historial.tratamiento %></td>
+                   <td>
+                     <a
+                       class="btn btn-warning btn-sm"
+                       href="./<%= historial.id %>"
+                     >
+                       Editar
+                     </a>
+                   </td>
+                 </tr>
+         <% }) %>  
+      <% } %>      
+         </tbody>
+      </table>
+   </div>
+
+   <%- include('template/footer') %>

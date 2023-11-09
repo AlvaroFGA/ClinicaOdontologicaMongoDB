@@ -1,0 +1,170 @@
+<%- include("template/cabecera", {titulo: 'Editar Historial'}) %>
+  <div class="container">
+    <h1>Detalle Historial</h1>
+    <% if (error) { %>
+        <%= mensaje %> 
+        <a 
+            href="/"
+            class="btn btn-dark btn-block my-2"
+        >
+            Volver
+        </a>
+    <% } %>
+    <% if (!error) { %>
+
+      <form id="formularioEditar" data-id="<%= historial.id %>">
+      
+       <input 
+         type="date" 
+         name="fecha" 
+         value="<%= historial.fecha.toISOString().slice(0, 10) %>" 
+         class="form-control my-2">
+       <input 
+           type="text"
+           class="form-control my-2"
+           name="doctor"
+           value="<%= historial.doctor %>"
+           placeholder="Ingrese el nombre del doctor responsable"
+           > 
+           <button id="limpiarInputs" class="btn btn-outline-info btn-sm" >
+            Limpiar Datos Del Paciente
+            </button>
+         
+       <input 
+         value="<%= historial.paciente.nombre %>"
+         type="text"
+           class="form-control my-2"
+           name="paciente.nombre"
+           style="padding-left: 20%;"
+           placeholder="Ingrese el nombre del paciente"
+       >  
+       <input 
+         value="<%= historial.paciente.apellido %>"
+           type="text"
+           placeholder="Ingrese el apellido del paciente"
+           class="form-control my-2"
+           name="paciente.apellido"
+           style="padding-left: 20%;"
+       >   
+       <input 
+         value="<%= historial.paciente.ciudad %>"
+           type="text"
+           placeholder="Ingrese la ciudad"
+           class="form-control my-2"
+           name="paciente.ciudad"
+           style="padding-left: 20%;"
+       >  
+       <input 
+         value="<%= historial.paciente.telefono %>"
+           type="number"
+           placeholder="Ingrese el numero telefonico del paciente"
+           class="form-control my-2"
+           name="paciente.telefono"
+           style="padding-left: 20%;"
+       > 
+       <input 
+         value="<%= historial.paciente.email %>"
+           type="email"
+           placeholder="Ingrese el correo del paciente"
+           class="form-control my-2"
+           name="paciente.email"
+           style="padding-left: 20%;"
+       >   
+       <input 
+         value="<%= historial.tratamiento %>"
+           type="text"
+           placeholder="Ingrese el tratamiento"
+           class="form-control my-2"
+           name="tratamiento"
+       >  
+
+         <button type="submit" class="btn-warning btn-block">Editar</button>          
+     </form>
+
+<hr>
+
+        <button class="btn btn-danger btn-sm btneliminar" data-id="<%= historial.id %>">
+         Eliminar
+         </button>
+    <% } %>
+  </div>
+<%- include("template/footer") %>
+<script>
+   const btnEliminar = document.querySelector('.btneliminar')
+     btnEliminar.addEventListener('click', async() => {
+       console.log(btnEliminar.dataset.id)  
+       try {
+           const data = await fetch(`./${btnEliminar.dataset.id}`, {
+             method: 'delete'
+           })
+           const res = await data.json()
+           console.log(res)
+           if(res.estado){
+               window.location.href = '/'
+           }else{
+               console.log(res)
+           }
+       } catch (error) {
+           console.log(error)
+       }
+     })
+
+
+   const formEditar = document.querySelector('#formularioEditar');
+
+   formEditar.addEventListener('submit', async(e) => {
+    e.preventDefault()
+    const fecha = formEditar.elements['fecha'].value
+    const doctor = formEditar.elements['doctor'].value
+    const pnombre = formEditar.elements['paciente.nombre'].value
+    const papellido = formEditar.elements['paciente.apellido'].value
+    const pciudad = formEditar.elements['paciente.ciudad'].value
+    const ptelefono = formEditar.elements['paciente.telefono'].value
+    const pemail = formEditar.elements['paciente.email'].value
+    const tratamiento = formEditar.elements['tratamiento'].value
+
+   const paciente = {
+      nombre: pnombre,
+      apellido: papellido,
+      ciudad: pciudad,
+      telefono: ptelefono,
+      email: pemail
+   }
+
+    const id = formEditar.dataset.id 
+
+    const data = await fetch(`./${id}`, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({fecha, doctor, paciente, tratamiento})
+    })
+
+    const res = await data.json()
+
+    if(res.estado){
+        window.location.href = '/'
+    }else{
+        console.log(res)
+    }
+
+})
+
+const limpiarButton = document.getElementById('limpiarInputs');
+  limpiarButton.addEventListener('click', function(e) {
+   e.preventDefault()
+    const nombre = document.querySelector('input[name="paciente.nombre"]');
+    const apellido = document.querySelector('input[name="paciente.apellido"]');
+    const ciudad = document.querySelector('input[name="paciente.ciudad"]');
+    const telefono = document.querySelector('input[name="paciente.telefono"]');
+    const email = document.querySelector('input[name="paciente.email"]');
+    nombre.value = '';
+    apellido.value = '';
+    ciudad.value = '';
+    telefono.value = '';
+    email.value = '';
+  });
+
+
+   </script>

@@ -1,0 +1,67 @@
+<%- include('template/cabecera', {titulo: 'crear historial'}) %>
+
+<div class="container">
+   <h1>Crear nuevo historial</h1>
+   <form action="./" class="my-2" method="POST">
+       <input 
+           type="date"
+           placeholder="Ingrese Nombre"
+           class="form-control my-2"
+           name="fecha"
+       > 
+       <input 
+           type="text"
+           placeholder="Ingrese el nombre del doctor responsable"
+           class="form-control my-2"
+           name="doctor"
+       > 
+       <input 
+           type="text"
+           placeholder="Ingrese el nombre del paciente"
+           class="form-control my-2"
+           name="paciente.nombre"
+           style="padding-left: 20%;"
+       >  
+       <input 
+           type="text"
+           placeholder="Ingrese el apellido del paciente"
+           class="form-control my-2"
+           name="paciente.apellido"
+           style="padding-left: 20%;"
+       >   
+       <input 
+           type="text"
+           placeholder="Ingrese la ciudad"
+           class="form-control my-2"
+           name="paciente.ciudad"
+           style="padding-left: 20%;"
+       >  
+       <input 
+           type="number"
+           placeholder="Ingrese el numero telefonico del paciente"
+           class="form-control my-2"
+           name="paciente.telefono"
+           style="padding-left: 20%;"
+       > 
+       <input 
+           type="email"
+           placeholder="Ingrese el correo del paciente"
+           class="form-control my-2"
+           name="paciente.email"
+           style="padding-left: 20%;"
+       >   
+       <input 
+           type="text"
+           placeholder="Ingrese el tratamiento"
+           class="form-control my-2"
+           name="tratamiento"
+       >  
+       <button
+           type="submit"
+           class="btn btn-dark btn-block">
+           Agregar
+       </button>
+   </form>
+ </div>
+
+   <%- include('template/footer') %>
